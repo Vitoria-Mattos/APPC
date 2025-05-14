@@ -82,6 +82,7 @@ def ondeEsta (nom,agd):
     # encontrar o nome procurado.
 
 def cadastrar (agd):
+    print('Opção não implementada!')
     # Ficar solicitando a digitação de um nome a ser excluido da agenda,
     # até que um nome NÃO CADASTRADO seja digitado.
     # Solicitar então a digitação do aniversario, do endereao, do
