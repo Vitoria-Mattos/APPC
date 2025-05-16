@@ -30,9 +30,9 @@ def apresenteSe ():
     print('|                                                             |')
     print('| AGENDA PESSOAL DE ANIVERSÁRIOS E FORMAS DE CONTATAR PESSOAS |')
     print('|                                                             |')
-    print('| Profs André Carvalho & J.G.Pícolo                           |')
+    print('| Thaynara Soares RA 25002736 & Vitória Mattos RA             |')
     print('|                                                             |')
-    print('| Versão 1.0 de 12/maio/2025                                  |')
+    print('| Versão 2.0 de 26/maio/2025                                  |')
     print('|                                                             |')
     print('+-------------------------------------------------------------+')
 
@@ -82,34 +82,49 @@ def ondeEsta (nom,agd):
     # encontrar o nome procurado.
 
 def cadastrar (agd):
-    print('Opção não implementada!')
-    # Ficar solicitando a digitação de um nome a ser excluido da agenda,
-    # até que um nome NÃO CADASTRADO seja digitado.
-    # Solicitar então a digitação do aniversario, do endereao, do
-    # telefone (fixo), do celular e do e_mail da pessoa, cujo nome foi
-    # digitado.
-    # Gerar então uma lista conforme abaixo:
-    # contato=[nome,aniversario,endereco,telefone,celular,email]
-    # incluindo essa listinha chamada contato na listona chamada agd,
-    # lembrando que agd é parâmetro formal desta função; o parâmetro
-    # real que é fornecido no programa ao chamar esta função se chama
-    # agenda.
-    # Na listona, as listinhas deverão estar em ordem alfabética de
-    # nome e o local apropriadoa para a inserção deverá ser obtido
-    # usando a função ondeEsta, que realiza uma busca binária.
-    # O usuário poderá desistir de cadastrar, escrevendo "cancela" no
-    # momento de digitar o nome a ser cadastrado.
-    # A função deverá terminar com uma mensagem informando cadastro
-    # realizado com sucesso ou cadastro não realizado.
+    print("\n>>> Cadastro de novo contato <<<")
+
+    nome = input("Nome.......: ")
+    posicao, achou = ondeEsta(nome, agd)
+
+    if achou:
+        print("Este nome já está cadastrado.")
+        return
+    else:
+        aniversario = input("Aniversário: ")
+        endereco = input("Endereço.... ")
+        telefone = input("Telefone.... ")
+        celular = input("Celular..... ")
+        email = input("E-mail...... ")
+
+        contato = [nome, aniversario, endereco, telefone, celular, email]
+
+      
+        agd.insert(posicao, contato)
+        print("Contato cadastrado com sucesso!")
 
 def procurar (agd):
-    print('Opção não implementada!')
-    # Ficar pedindo para digitar um nome até digitar um nome que existe
-    # cadastrado;
-    # mostrar então na tela TODOS os demais dados encontrados 
-    # sobre aquela pessoa.
-    # O usuário poderá desistir de procurar, escrevendo "cancela" no
-    # momento de digitar o nome a ser procurado.
+    print("\n>>> Procurar contato <<<")
+    nome = input("Digite o nome do contato que deseja procurar (ou 'cancela' para desistir): ")
+
+    if nome.lower() == "cancela":
+        print("Busca cancelada.")
+        return
+
+    posicao, achou = ondeEsta(nome, agd)
+
+    if achou:
+        contato = agd[posicao]
+        print("\nContato encontrado:")
+        print("Nome.......:", contato[0])
+        print("Aniversário:", contato[1])
+        print("Endereço...:", contato[2])
+        print("Telefone...:", contato[3])
+        print("Celular....:", contato[4])
+        print("E-mail.....:", contato[5])
+    else:
+        print("Contato não encontrado.")
+
 
 def atualizar (agd):
     print('Opção não implementada!')
@@ -129,11 +144,20 @@ def atualizar (agd):
     # uma dessas atualizações, naturalmente).
 
 def listar (agd):
-    print('Opção não implementada!')
-    # implementar aqui a listagem de todos os dados de todos
-    # os contatos cadastrados
-    # printar aviso de que não há contatos cadastrados se
-    # esse for o caso
+    print("\n>>> Lista de contatos <<<")
+
+    if len(agd) == 0:
+        print("Agenda vazia!")
+        return
+    
+    for contato in agd:
+        print(f"\nNome.......: {contato[0]}")
+        print(f"Aniversario: {contato[1]}")
+        print(f"Endereco...: {contato[2]}")
+        print(f"Telefone...: {contato[3]}")
+        print(f"Celular....: {contato[4]}")
+        print(f"E-mail.....: {contato[5]}")
+
 
 def excluir (agd):
     print('Opção não implementada!')
