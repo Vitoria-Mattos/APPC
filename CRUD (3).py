@@ -79,12 +79,16 @@ def ondeEsta (nom,agd):
 
 
 def cadastrar (agd):
-    print("\n>>> Cadastro de novo contato <<<")
-
+    print("\n——— Cadastro de novo contato ———")
+    print("\nOBS: caso deseje cancelar o cadastro digite 'cancela' no campo nome ")
+    
     while True:
         nome = input("Nome.......: ")
         achou, posicao = ondeEsta(nome, agd)
 
+        if nome.lower() == "cancela":
+            print("Cadastro cancelado.")
+            return
 
         if achou:
             print("Este nome já está cadastrado. Por favor, insira um nome diferente.")
@@ -104,7 +108,7 @@ def cadastrar (agd):
         
 
 def procurar (agd):
-    print("\n>>> Procurar contato <<<")
+    print("\n——— Procurar contato ———")
     while True:
         nome = input("Digite o nome do contato que deseja procurar (ou 'cancela' para desistir): ")
 
@@ -131,7 +135,7 @@ def procurar (agd):
 
 
 def atualizar (agd):
-    print("\n>>> Atualizar contato <<<")
+    print("\n——— Atualizar contato ———")
 
     while True:
         nome = input("Digite o nome do contato que deseja alterar(ou 'cancela' para desistir): ")
@@ -208,7 +212,7 @@ def atualizar (agd):
 
         
 def listar (agd):
-    print("\n>>> Lista de contatos <<<")
+    print("\n——— Lista de contatos ———")
 
     if len(agd) == 0:
         print("Agenda vazia!")
@@ -224,7 +228,7 @@ def listar (agd):
 
 
 def excluir (agd):
-    print("\n>>> Excluir contato <<<")
+    print("\n——— Excluir contato ———")
 
     while True:
         nome = input("Digite o nome do contato que deseja excluir (ou 'cancela' para desistir): ")
