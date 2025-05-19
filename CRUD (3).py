@@ -32,7 +32,7 @@ def apresenteSe ():
     print('|                                                             |')
     print('| Thaynara Soares RA 25002736 & Vitória Mattos RA 25002891    |')
     print('|                                                             |')
-    print('| Versão 2.0 de 26/maio/2025                                  |')
+    print('| Versão 2.0 de 19/maio/2025                                  |')
     print('|                                                             |')
     print('+-------------------------------------------------------------+')
 
@@ -61,14 +61,7 @@ def opcaoEscolhida (mnu):
     print()
     return umTexto('Qual é a sua opção? ', 'Opção inválida', opcoesValidas)
 
-'''
-procura nom em agd e, se achou, retorna:
-uma lista contendo True e a posicao onde achou;
-MAS, se não achou, retorna:
-uma lista contendo False e a posição onde inserir,
-aquilo que foi buscado, mas nao foi encontrado,
-mantendo a ordenação da lista.
-'''
+
 def ondeEsta (nom,agd):
     inicio=0
     final =len(agd)-1
@@ -85,56 +78,56 @@ def ondeEsta (nom,agd):
     return[False, inicio]
 
 
-    # continue a implementação que, entre outras coisas, deverá
-    # calcular o meio, conforme segue:
-        
-    # a função deverá retornar a lista [True,meio] quando encontrar o
-    # nome procurado ou então a lista [False,inicio], quando não
-    # encontrar o nome procurado.
-
 def cadastrar (agd):
     print("\n>>> Cadastro de novo contato <<<")
 
-    nome = input("Nome.......: ")
-    achou, posicao = ondeEsta(nome, agd)
+    while True:
+        nome = input("Nome.......: ")
+        achou, posicao = ondeEsta(nome, agd)
 
-    if achou:
-        print("Este nome já está cadastrado.")
-        return
-    else:
-        aniversario = input("Aniversário: ")
-        endereco = input("Endereço.... ")
-        telefone = input("Telefone.... ")
-        celular = input("Celular..... ")
-        email = input("E-mail...... ")
 
-        contato = [nome, aniversario, endereco, telefone, celular, email]
+        if achou:
+            print("Este nome já está cadastrado. Por favor, insira um nome diferente.")
+        else:
+            break  
 
-        agd.insert(posicao, contato)
-        print("Contato cadastrado com sucesso!")
-    
+    aniversario = input("Aniversário: ")
+    endereco = input("Endereço.... ")
+    telefone = input("Telefone.... ")
+    celular = input("Celular..... ")
+    email = input("E-mail...... ")
+
+    contato = [nome, aniversario, endereco, telefone, celular, email]
+
+    agd.insert(posicao, contato)
+    print("Contato cadastrado com sucesso!")
+        
 
 def procurar (agd):
     print("\n>>> Procurar contato <<<")
-    nome = input("Digite o nome do contato que deseja procurar (ou 'cancela' para desistir): ")
+    while True:
+        nome = input("Digite o nome do contato que deseja procurar (ou 'cancela' para desistir): ")
 
-    if nome.lower() == "cancela":
-        print("Busca cancelada.")
-        return
+        if nome.lower() == "cancela":
+            print("Busca cancelada.")
+            return
 
-    achou, posicao = ondeEsta(nome, agd)
+        achou, posicao = ondeEsta(nome, agd)
+        if not achou:
+            print("Nome não encontrado. Tente novamente!")
+        else:
+            break
 
-    if achou:
-        contato = agd[posicao]
-        print("\nContato encontrado:")
-        print("Nome.......:", contato[0])
-        print("Aniversário:", contato[1])
-        print("Endereço...:", contato[2])
-        print("Telefone...:", contato[3])
-        print("Celular....:", contato[4])
-        print("E-mail.....:", contato[5])
-    else:
-        print("Contato não encontrado.")
+        if achou:
+            contato = agd[posicao]
+            print("\nContato encontrado:")
+            print("Nome.......:", contato[0])
+            print("Aniversário:", contato[1])
+            print("Endereço...:", contato[2])
+            print("Telefone...:", contato[3])
+            print("Celular....:", contato[4])
+            print("E-mail.....:", contato[5])
+        
 
 
 def atualizar (agd):
@@ -150,7 +143,7 @@ def atualizar (agd):
         achou, posicao = ondeEsta(nome, agd)
         
         if not achou:
-            print("Nome não cadastrado!")
+            print("Nome não cadastrado. Tente novamente!")
         else:
             submenu=['Atualizar aniversário',\
                     'Atualizar endereço',\
@@ -214,21 +207,6 @@ def atualizar (agd):
             return
 
         
-    # Ficar solicitando a digitação de um nome a ser excluido da agenda,
-    # até que um nome cadastrado seja digitado.
-    # Ficar mostrando então um SUBMENU oferecendo as opções de atualizar
-    # aniversário, ou endereco, ou telefone, ou celular, ou email, ou
-    # finalizar as atualizações; ficar pedindo para digitar a opção até
-    # digitar uma opção válida; realizar a atulização solicitada; tudo
-    # isso até ser escolhida a opção de finalizar as atualizações.
-    # REPARE que não foi prevista uma opção de atualizar o nome!
-    # USAR A FUNÇÃO opcaoEscolhida, JÁ IMPLEMENTADA, PARA FAZER O MENU.
-    # O usuário poderá desistir de atualizar, escrevendo "cancela" no
-    # momento de digitar o nome a ser atualizado, ou, até mesmo, no
-    # momento de digitar o aniversário ou o endereço ou o telefone (fixo)
-    # ou o celular ou ainda o e_mail (caso o usuário tenha optado por
-    # uma dessas atualizações, naturalmente).
-
 def listar (agd):
     print("\n>>> Lista de contatos <<<")
 
@@ -258,19 +236,17 @@ def excluir (agd):
         achou, posicao = ondeEsta(nome, agd)
         
         if not achou:
-            print("Nome não cadastrado!")
+            print("Nome não cadastrado. Tente novamente!")
         else:
-            # Mostrar dados do contato
             contato = agd[posicao]
             print("\nContato encontrado:")
-            print(f"Nome: {contato[0]}")
+            print(f"Nome.......: {contato[0]}")
             print(f"Aniversário: {contato[1]}")
-            print(f"Endereço: {contato[2]}")  #não está aparecendo arrumar
-            print(f"Telefone: {contato[3]}")
-            print(f"Celular: {contato[4]}")
-            print(f"E-mail: {contato[5]}")
+            print(f"Endereço...: {contato[2]}")
+            print(f"Telefone...: {contato[3]}")
+            print(f"Celular....: {contato[4]}")
+            print(f"E-mail.....: {contato[5]}")
 
-            # Solicitar confirmação
             confirma = input("Deseja realmente excluir este contato? (s/n): ").lower()
 
             if confirma == "s":
@@ -281,25 +257,11 @@ def excluir (agd):
             return
     
     
-    # Ficar solicitando a digitação de um nome a ser excluido da agenda,
-    # até que um nome cadastrado seja digitado.
-    # Os dados encontrados deveriam então ser mostrados e a exclusão!!!!!!!!!!!!!!!!!!!!!!
-    # deveria ser confirmada.
-    # Sendo confirmada, a exclusão deveria ser realizada e uma mensagem
-    # de exclusão bem sucedida deveria ser mostrada. Não sendo confirmada,
-    # uma mensagem de exclusão não realizada deveria ser mostrada.
-    # O usuário poderá desistir de excluir, escrevendo "cancela" no
-    # momento de digitar o nome a ser excluído.
-    
-    
     
 # daqui para cima, definimos subprogramas (ou módulos, é a mesma coisa)
 # daqui para baixo, implementamos o programa
 # (nosso CRUD, C=create(cadastrar), R=read(recuperar),
 # U=update(atualizar), D=delete(remover,apagar)
-
-
-
 
 apresenteSe()
 
@@ -326,7 +288,7 @@ while not deseja_terminar_o_programa:
         listar(agenda)
     elif opcao==5:
         excluir(agenda)
-    else: # opcao==6
+    else: 
         deseja_terminar_o_programa=True
         
 print('PROGRAMA ENCERRADO COM SUCESSO!')
