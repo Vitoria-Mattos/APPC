@@ -22,7 +22,7 @@ os alunos da dupla, ou até em uma nota bem baixa para um programa que
 funciona perfeitamente (basta estar perdido na demonstração).
 '''
 
-
+import re
 
 
 def apresenteSe ():
@@ -81,9 +81,14 @@ def ondeEsta (nom,agd):
 def cadastrar (agd):
     print("\n——— Cadastro de novo contato ———")
     print("\nOBS: caso deseje cancelar o cadastro digite 'cancela' no campo nome ")
-    
+
     while True:
+        padrao_de_nome = re.compile('^[A-Z][a-z]*(?: (?:[A-Z]|[a-z])[a-z]*)*$')
         nome = input("Nome.......: ")
+
+        if not padrao_de_nome.match(nome):
+            print("Nome inválido, tente novamente!")
+            continue
         achou, posicao = ondeEsta(nome, agd)
 
         if nome.lower() == "cancela":
@@ -93,13 +98,46 @@ def cadastrar (agd):
         if achou:
             print("Este nome já está cadastrado. Por favor, insira um nome diferente.")
         else:
-            break  
+            break 
 
-    aniversario = input("Aniversário: ")
-    endereco = input("Endereço.... ")
-    telefone = input("Telefone.... ")
-    celular = input("Celular..... ")
-    email = input("E-mail...... ")
+    while True:
+        padrao_aniversario = re.compile ('^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{4}$')
+        aniversario = input("Aniversário: ")
+        if padrao_aniversario.match(aniversario):
+            break
+        else:
+            print("Aniversário inválido, digite no formato (DD/MM/AAAA). Tente novamente!")
+
+    while True:        
+        padrao_endereco = re.compile('^[A-Za-zÀ-ÿ0-9 ,.\-ºª]+$')
+        endereco = input("Endereço.... ")
+        if padrao_endereco.match(endereco):
+            break
+        else:
+            print("Endereço inválido, tente novamente!")
+    while True:
+        padrao_de_telefone = re.compile('^\(\d{2}\) \d{4}-\d{4}$')
+        telefone = input("Telefone.... ")
+        if padrao_de_telefone.match(telefone):
+            break
+        else:
+            print("Telefone inválido, digite no formato (XX) XXXX-XXXX. Tente novamente!")
+
+    while True:
+        padrao_de_celular = re.compile('^\(\d{2}\) 9\d{4}-\d{4}$')
+        celular = input("Celular..... ")
+        if padrao_de_celular.match(celular):
+            break
+        else:
+            print("Celular inválido, digite no formato (XX) XXXXX-XXXX. Tente novamente!")
+
+    while True:
+        padrao_email = re.compile('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+        email = input("E-mail...... ")
+        if padrao_email.match(email):
+            break
+        else:
+            print("Email inválido, tente novamente!")
 
     contato = [nome, aniversario, endereco, telefone, celular, email]
 
@@ -120,18 +158,16 @@ def procurar (agd):
         if not achou:
             print("Nome não encontrado. Tente novamente!")
         else:
-            break
-
-        if achou:
-            contato = agd[posicao]
-            print("\nContato encontrado:")
-            print("Nome.......:", contato[0])
-            print("Aniversário:", contato[1])
-            print("Endereço...:", contato[2])
-            print("Telefone...:", contato[3])
-            print("Celular....:", contato[4])
-            print("E-mail.....:", contato[5])
-        
+            if achou:
+                contato = agd[posicao]
+                print("\nContato encontrado:")
+                print("Nome.......:", contato[0])
+                print("Aniversário:", contato[1])
+                print("Endereço...:", contato[2])
+                print("Telefone...:", contato[3])
+                print("Celular....:", contato[4])
+                print("E-mail.....:", contato[5])
+                break
 
 
 def atualizar (agd):
@@ -161,50 +197,92 @@ def atualizar (agd):
                 opcao = int(opcaoEscolhida(submenu))
 
                 if opcao == 1:
-                    novo_aniversario = input("Digite a nova data de aniversário (ou 'cancela' para desistir): ")
-                    if novo_aniversario.lower() == "cancela":
-                        print("Atualização do aniversário cancelada.")
-                    else:
-                        agd[posicao][1]= novo_aniversario
-                        print("Aniversário atualizado com sucesso!")
+                    while True:
+                        padrao_aniversario = re.compile ('^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{4}$')
+                        novo_aniversario = input("Digite a nova data de aniversário (ou 'cancela' para desistir): ")
+                
+                        if novo_aniversario.lower() == "cancela":
+                            print("Atualização do aniversário cancelada.")
+                            break
+
+                        elif padrao_aniversario.match(novo_aniversario):
+                            agd[posicao][1]= novo_aniversario
+                            print("Aniversário atualizado com sucesso!")
+                            break
+                        else:
+                            print("Aniversário inválido, digite no formato (DD/MM/AAAA). Tente novamente!")
+
 
                 elif opcao == 2:
-                    novo_endereco = input("Digite o novo endereço (ou 'cancela' para desistir): ")
-                    if novo_endereco.lower() == "cancela":
-                        print("Atualização do endereço cancelada.")
-                    else:
-                        agd[posicao][2]= novo_endereco
-                        print("Endereço atualizado com sucesso!")
+                    while True:
+                        padrao_endereco = re.compile('^[A-Za-zÀ-ÿ0-9 ,.\-ºª]+$')
+                        novo_endereco = input("Digite o novo endereço (ou 'cancela' para desistir): ")
+
+                        if novo_endereco.lower() == "cancela":
+                            print("Atualização do endereço cancelada.")
+                            break
+                        
+                        elif padrao_endereco.match(novo_endereco):
+                            agd[posicao][2]= novo_endereco
+                            print("Endereço atualizado com sucesso!")
+                            break     
+                        else:
+                            print("Endereço inválido, tente novamente!")
 
                 elif opcao == 3:
-                    novo_telefone = input("Digite o novo telefone (ou 'cancela' para desistir): ")
-                    if novo_telefone.lower() == "cancela":
-                        print("Atualização do telefone cancelada.")
-                    else:
-                        agd[posicao][3] = novo_telefone
-                        print("Telefone atualizado com sucesso!")
+                    while True:
+                        padrao_de_telefone = re.compile('^\(\d{2}\) \d{4}-\d{4}$')
+                        novo_telefone = input("Digite o novo telefone (ou 'cancela' para desistir): ")
+
+                        if novo_telefone.lower() == "cancela":
+                            print("Atualização do telefone cancelada.")
+                            break
+                        
+                        elif padrao_de_telefone.match(novo_telefone):  
+                            agd[posicao][3] = novo_telefone
+                            print("Telefone atualizado com sucesso!")
+                            break
+                        else:
+                            print("Telefone inválido, digite no formato (XX) XXXX-XXXX. Tente novamente!")
+        
 
                 elif opcao == 4:
-                    novo_celular = input("Digite o novo celular (ou 'cancela' para desistir): ")
-                    if novo_celular.lower() == "cancela":
-                        print("Atualização do celular cancelada.")
-                    else:
-                        agd[posicao][4]= novo_celular
+                    while True:
+                        padrao_de_celular = re.compile('^\(\d{2}\) 9\d{4}-\d{4}$')
+                        novo_celular = input("Digite o novo celular (ou 'cancela' para desistir): ")
 
-                        print("Celular atualizado com sucesso!")
+                        if novo_celular.lower() == "cancela":
+                            print("Atualização do celular cancelada.")
+                            break
+
+                        elif padrao_de_celular.match(novo_celular):
+                            agd[posicao][4]= novo_celular
+                            print("Celular atualizado com sucesso!")
+                            break
+                        else:
+                            print("Celular inválido, digite no formato (XX) XXXXX-XXXX. Tente novamente!")
+
 
                 elif opcao == 5:
-                    novo_email = input("Digite o novo email (ou 'cancela' para desistir): ")
-                    if novo_email.lower() == "cancela":
-                        print("Atualização do email cancelada.")
-                    else:
-                        agd[posicao][5] = novo_email
-                        print("Email atualizado com sucesso!")
+                    while True:
+                        padrao_email = re.compile('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+                        novo_email = input("Digite o novo email (ou 'cancela' para desistir): ")
+
+                        if novo_email.lower() == "cancela":
+                            print("Atualização do email cancelada.")
+                            break
+
+                        elif padrao_email.match(novo_email):
+                            agd[posicao][5] = novo_email
+                            print("Email atualizado com sucesso!")
+                            break
+                        else:
+                            print("Email inválido, tente novamente!")
+                        
 
                 elif opcao == 6:
                     deseja_terminar_atualizacao = True
                     print("Atualização finalizada.")
-
                 else:
                     print("Opção inválida. Tente novamente.")
 
